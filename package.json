@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "jest",
-    "lint": "ng lint"
+    "lint": "eslint --ext .ts,tsx ./src"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "~9.1.4",
     "@angular/router": "~9.1.4",
     "bootstrap": "^4.4.1",
+    "jquery": "^3.5.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -30,9 +31,15 @@
     "@angular/language-service": "~9.1.4",
     "@types/jest": "^25.2.1",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "codelyzer": "^5.1.2",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
+    "eslint-plugin-import": "^2.20.2",
     "jest": "^26.0.1",
     "jest-preset-angular": "^8.2.0",
+    "ts-deepmerge": "^1.0.5",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
