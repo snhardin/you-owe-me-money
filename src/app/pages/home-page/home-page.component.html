@@ -1,1 +1,16 @@
-<p>home-page works!</p>
+<div class="card mt-3 mx-auto">
+    <h5 class="card-header">Current Balance</h5>
+    <div class="card-body">
+        <div class="balance" [ngClass]="{
+            'text-success': balance > 0,
+            'text-danger': balance < 0,
+            'text-muted': balance === 0
+        }">
+            $<span [innerText]="balance | number : '1.2-2'"></span>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap justify-content-start ml-2 mb-2">
+        <a href="" class="btn btn-primary mr-2">Pay via PayPal</a>
+        <a href="" class="btn btn-primary">Pay via Venmo</a>
+    </div>
+</div>
