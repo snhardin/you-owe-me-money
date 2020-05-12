@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BalanceService } from 'src/app/services/balance.service';
 
 @Component({
   selector: 'app-home-page',
@@ -8,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
 export class HomePageComponent implements OnInit {
   public balance: number;
 
+  constructor (
+    private balanceService: BalanceService,
+  ) { }
+
   public ngOnInit(): void {
-    this.balance = 0;
+    this.balanceService.getBalance()
+      .subscribe(res => {
+        this.balance = res.balance;
+      },
+      err => {
+        console.error('HomePageComponent :: ngOnInit :: Error retrieving balance '
+          + `from API: ${err}`);
+      });
   }
 }

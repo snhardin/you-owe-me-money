@@ -4,19 +4,26 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/index.js"
+    "lint": "eslint --ext .ts,tsx ./src",
+    "start": "npm run build && node ./dist/index.js"
   },
   "author": "Scott Hardin",
   "license": "ISC",
   "devDependencies": {
     "@types/koa": "^2.11.3",
     "@types/koa__router": "^8.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.32.0",
+    "@typescript-eslint/parser": "^2.32.0",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
+    "eslint-plugin-import": "^2.20.2",
+    "json-schema": "^0.2.5",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
     "@koa/router": "^8.0.8",
-    "koa": "^2.11.0"
-  },
-  "type": "module"
+    "koa": "^2.11.0",
+    "tslib": "^1.11.2"
+  }
 }
