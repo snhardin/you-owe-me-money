@@ -10,8 +10,11 @@
   "author": "Scott Hardin",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/koa": "^2.11.3",
     "@types/koa__router": "^8.0.2",
+    "@types/mongodb": "^3.5.25",
+    "@types/node": "^14.0.25",
     "@typescript-eslint/eslint-plugin": "^2.32.0",
     "@typescript-eslint/parser": "^2.32.0",
     "eslint": "^7.0.0",
@@ -23,7 +26,10 @@
   },
   "dependencies": {
     "@koa/router": "^8.0.8",
+    "google-auth-library": "^6.0.5",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
+    "mongodb": "^3.5.9",
     "tslib": "^1.11.2"
   }
 }
