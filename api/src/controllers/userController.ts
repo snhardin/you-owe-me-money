@@ -1,6 +1,6 @@
 import Koa from 'koa';
 import Router from '@koa/router';
-import { findUser } from '../util/authentication';
+import { findUser } from '../util/database';
 import { verify } from '../middleware/authMiddleware';
 
 async function user (ctx: Koa.ParameterizedContext) {

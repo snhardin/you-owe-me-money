@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import { JWT_COOKIE_NAME } from '../util/constants';
+import { JWT_COOKIE_NAME } from '../controllers/authController';
 import jwt from 'jsonwebtoken';
 import config from '../util/config';
 

@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import { findBalance } from '../util/authentication';
+import { findBalance } from '../util/database';
 import Router from '@koa/router';
 import { verify } from '../middleware/authMiddleware';
 

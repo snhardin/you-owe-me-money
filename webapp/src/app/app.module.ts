@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { GoogleSignInButtonComponent } from './components/google-sign-in-button/google-sign-in-button.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     HomePageComponent,
     AdminPageComponent,
     NavBarComponent,
+    GoogleSignInButtonComponent,
   ],
   imports: [
     BrowserModule,

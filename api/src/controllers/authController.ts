@@ -2,10 +2,11 @@ import Koa from 'koa';
 import { OAuth2Client } from 'google-auth-library';
 import config from '../util/config';
 import jwt from 'jsonwebtoken';
-import { findUser } from '../util/authentication';
-import { JWT_COOKIE_NAME } from '../util/constants';
+import { findUser } from '../util/database';
 import Router from '@koa/router';
 import { verify } from '../middleware/authMiddleware';
+
+export const JWT_COOKIE_NAME = 'youOwe-token';
 
 const oauthClient = new OAuth2Client(config.ClientId);
 const tokenSearch = /^[Bb]earer +[a-zA-Z\d]+$/;

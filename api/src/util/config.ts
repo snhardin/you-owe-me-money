@@ -1,5 +1,9 @@
-import { CLIENT_ID_NAME, CONNECTION_STRING_NAME, JWT_KEY_NAME, JWT_EXPIRY_NAME } from './constants';
 import crypto from 'crypto';
+
+const CLIENT_ID_ENV_NAME = 'CLIENT_ID';
+const CONNECTION_STRING_ENV_NAME = 'MONGO_URL';
+const JWT_EXPIRY_ENV_NAME = 'JWT_EXPIRY';
+const JWT_KEY_ENV_NAME = 'JWT_KEY';
 
 class Configuration {
     private _clientId = '';
@@ -24,10 +28,10 @@ class Configuration {
     }
 
     public constructor () {
-        this._clientId = process.env[CLIENT_ID_NAME] || '';
-        this._dbConnStr = process.env[CONNECTION_STRING_NAME] || '';
-        this._jwtExpiry = Number(process.env[JWT_EXPIRY_NAME]);
-        this._jwtKey = process.env[JWT_KEY_NAME] || '';
+        this._clientId = process.env[CLIENT_ID_ENV_NAME] || '';
+        this._dbConnStr = process.env[CONNECTION_STRING_ENV_NAME] || '';
+        this._jwtExpiry = Number(process.env[JWT_EXPIRY_ENV_NAME]);
+        this._jwtKey = process.env[JWT_KEY_ENV_NAME] || '';
         
         if (!this._clientId) {
             throw new Error('Invalid or empty client id');

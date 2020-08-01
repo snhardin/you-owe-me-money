@@ -14,6 +14,6 @@ export class BalanceService extends WithEnvironment() {
   }
 
   public getBalance () {
-    return this.http.get<BalanceServiceResponse>(`${this.env.api}/balance`);
+    return this.http.get<BalanceServiceResponse>(`${this.env.api.base}${this.env.api.balance}`);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { BalanceService } from 'src/app/services/balance.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class HomePageComponent implements OnInit {
       },
       err => {
         console.error('HomePageComponent :: ngOnInit :: Error retrieving balance '
-          + `from API: ${err}`);
+          + 'from API:', err);
       });
   }
 }
