@@ -32,7 +32,7 @@ class Configuration {
         this._dbConnStr = process.env[CONNECTION_STRING_ENV_NAME] || '';
         this._jwtExpiry = Number(process.env[JWT_EXPIRY_ENV_NAME]);
         this._jwtKey = process.env[JWT_KEY_ENV_NAME] || '';
-        
+
         if (!this._clientId) {
             throw new Error('Invalid or empty client id');
         }
@@ -42,7 +42,7 @@ class Configuration {
         }
 
         if (Number.isNaN(this._jwtExpiry)) {
-            this._jwtExpiry = 1800;
+            this._jwtExpiry = 60 * 30;
         }
 
         if (!this._jwtKey) {

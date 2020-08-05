@@ -4,7 +4,6 @@ import Router from '@koa/router';
 import config from './util/config';
 import authController from './controllers/authController';
 import balanceController from './controllers/balanceController';
-import userController from './controllers/userController';
 
 process.on('SIGINT', () => stop('SIGINT'));
 process.on('SIGTERM', () => stop('SIGTERM'));
@@ -18,7 +17,6 @@ async function start () {
 
         router.use('/auth', authController.routes(), authController.allowedMethods());
         router.use('/balance', balanceController.routes(), balanceController.allowedMethods());
-        router.use('/user', userController.routes(), userController.allowedMethods());
 
         app.use(router.routes());
 

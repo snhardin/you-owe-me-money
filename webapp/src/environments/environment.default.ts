@@ -2,12 +2,16 @@ export const ENVIRONMENT_DEFAULT = {
     api: {
         admin: '/admin',
         auth: '/auth',
-        base: 'http://localhost:8080',
+        base: '/api',
         balance: '/balance',
+        checkAuth: '/auth/whoAmI',
+        logoutAuth: '/auth/logout',
     },
     gapi: {
         clientId: '',
-        scope: 'email',
+    },
+    session: {
+        cookieName: 'youOnly-token',
     },
     production: false,
 };

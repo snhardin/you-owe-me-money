@@ -13,10 +13,10 @@ interface UserDocument {
     email: string;
 }
 
-export async function findBalance (email: string) {
-    return await mongodb.db.collection(BALANCES_COLLECTION).findOne<BalanceDocument>({ _id: email });
+export function findBalance (email: string) {
+    return mongodb.db.collection(BALANCES_COLLECTION).findOne<BalanceDocument>({ _id: email });
 }
 
-export async function findUser (email: string) {
-    return await mongodb.db.collection(USERS_COLLECTION).findOne<UserDocument>({ _id: email });
+export function findUser (email: string) {
+    return mongodb.db.collection(USERS_COLLECTION).findOne<UserDocument>({ email });
 }

@@ -14,7 +14,7 @@ export class GoogleSignInButtonComponent extends WithEnvironment() implements Af
   public id = 'g-signin';
 
   constructor (
-    private auth: AuthenticationService
+    private auth: AuthenticationService,
   ) {
     super();
   }
@@ -28,19 +28,18 @@ export class GoogleSignInButtonComponent extends WithEnvironment() implements Af
     gapi.load('auth2', () => {
       gapi.auth2.init({
         client_id: this.env.gapi.clientId,
-        scope: this.env.gapi.scope,
+        fetch_basic_profile: true,
       });
     });
   }
 
   private render () {
     gapi.signin2.render(this.id, {
-      scope: 'email',
       width: 180,
       height: 36,
       longtitle: true,
       theme: 'light',
-      onsuccess: params => this.onSignIn(params),
+      onsuccess: (params) => this.onSignIn(params),
     });
   }
 

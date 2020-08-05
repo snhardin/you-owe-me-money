@@ -1,0 +1,15 @@
+{
+    "/api": {
+        "changeOrigin": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "secure": false,
+        "target": {
+            "host": "localhost",
+            "port": "8080",
+            "protocol": "http"
+        }
+    }
+}

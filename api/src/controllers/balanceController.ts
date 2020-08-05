@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import { findBalance } from '../util/database';
 import Router from '@koa/router';
-import { verify } from '../middleware/authMiddleware';
+import { verify, refresh } from '../middleware/authMiddleware';
 
 interface BalanceResponse {
     balance: number;
@@ -10,15 +10,15 @@ interface BalanceResponse {
 async function balance (ctx: Koa.ParameterizedContext) {
     const result = await findBalance(ctx.email);
     if (result) {
-        ctx.body = <BalanceResponse>{
+        ctx.body = {
             balance: result.balance,
-        };
+        } as BalanceResponse;
     } else {
         ctx.throw(404);
     }
 }
 
 const router = new Router();
-router.get('/', verify, balance);
+router.get('/', verify, refresh, balance);
 
 export default router;
