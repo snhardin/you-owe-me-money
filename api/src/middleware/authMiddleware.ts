@@ -45,7 +45,6 @@ export async function refresh (ctx: Koa.ParameterizedContext, next: Koa.Next) {
 
     ctx.cookies.set(JWT_COOKIE_NAME, token, {
         maxAge: config.JWTExpiry * 1000,
-        httpOnly: true,
-        // secure: true,
+        ...config.CookieOptions,
     });
 }

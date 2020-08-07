@@ -23,7 +23,6 @@ export class NavBarComponent implements OnInit, OnDestroy {
       this.isAdmin = true; // TODO
       this.isLoggedIn = value.loggedIn;
       this.email = value.email;
-      console.log(value);
     });
   }
 

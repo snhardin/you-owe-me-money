@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { BalanceService } from 'src/app/services/balance.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { switchMap } from 'rxjs/operators';
-import { never, Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { BalanceServiceResponse } from 'src/app/services/balance.service.interface';
 
 @Component({
   selector: 'app-home-page',
@@ -29,7 +30,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           if (this.loggedIn) {
             return this.balanceService.getBalance();
           } else {
-            return never();
+            return of(<BalanceServiceResponse>{ balance: 0 });
           }
         }),
       )
@@ -37,10 +38,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.balance = response.balance;
       },
       (err: HttpErrorResponse) => {
+        this.balance = undefined;
         if (err.status === 404) {
-          // TODO: Display alert
           console.error('HomePageComponent :: ngOnInit :: No balance found for user!');
-          this.balance = undefined;
         } else {
           console.error('HomePageComponent :: ngOnInit :: Error retrieving balance '
             + 'from API:', err);

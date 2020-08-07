@@ -55,8 +55,7 @@ async function authenticate (ctx: Koa.ParameterizedContext) {
 
     ctx.cookies.set(JWT_COOKIE_NAME, token, {
         maxAge: config.JWTExpiry * 1000,
-        httpOnly: true,
-        // secure: true,
+        ...config.CookieOptions,
     });
 
     let validUser = false;
@@ -79,8 +78,7 @@ function logout (ctx: Koa.ParameterizedContext) {
     ctx.cookies.set(JWT_COOKIE_NAME, '', {
         expires: new Date(),
         maxAge: 0,
-        httpOnly: true,
-        // secure: true,
+        ...config.CookieOptions,
     });
 
     ctx.status = 204;
