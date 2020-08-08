@@ -8,10 +8,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
 
+    env:
+      working-directory: ./webapp
+
     strategy:
       matrix:
         node-version: [12.x]
-        working-directory: ./webapp
 
     steps:
       - uses: actions/checkout@v2
@@ -19,13 +21,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-        working-directory: ${{ matrix.working-directory }}
+      - run: npm ci
+        working-directory: ${{ env.working-directory }}
       - run: npm run build
-        working-directory: ${{ matrix.working-directory }}
+        working-directory: ${{ env.working-directory }}
       - run: npm run lint
-        working-directory: ${{ matrix.working-directory }}
+        working-directory: ${{ env.working-directory }}
       - run: npm test
-        working-directory: ${{ matrix.working-directory }}
+        working-directory: ${{ env.working-directory }}
         env:
           CI: true
