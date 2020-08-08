@@ -5,6 +5,7 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:jest/recommended',
         'plugin:jsdoc/recommended',
     ],
     parser: '@typescript-eslint/parser',
@@ -12,6 +13,7 @@ module.exports = {
         project: './tsconfig.json',
     },
     plugins: [
+        'jest',
         'jsdoc',
         '@typescript-eslint',
     ],

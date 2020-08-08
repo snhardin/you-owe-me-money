@@ -5,11 +5,13 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .ts,tsx ./src",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "test": "jest --config ./jest.config.js"
   },
   "author": "Scott Hardin",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^26.0.9",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/koa": "^2.11.3",
     "@types/koa__router": "^8.0.2",
@@ -20,7 +22,9 @@
     "eslint": "^7.0.0",
     "eslint-config-airbnb-typescript": "^7.2.1",
     "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-jsdoc": "^30.1.0",
+    "jest": "^26.2.2",
     "json-schema": "^0.2.5",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"

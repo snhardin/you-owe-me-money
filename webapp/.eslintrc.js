@@ -6,26 +6,20 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:jest/recommended',
+        'plugin:jsdoc/recommended',
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         project: './tsconfig.json',
     },
     plugins: [
-        '@typescript-eslint',
         'jest',
+        'jsdoc',
+        '@typescript-eslint',
     ],
     rules: {
-        'arrow-parens': [
-            'error',
-            'as-needed',
-        ],
-        'import/prefer-default-export': 'off',
-        'import/no-default-export': 'error',
-        'indent': [
-            'error',
-            'tab',
-        ],
-        'no-console': 'error',
+        '@typescript-eslint/indent': ['error', 4],
+        '@typescript-eslint/space-before-function-paren': ['error', 'always'],
+        'jsdoc/require-jsdoc': ['error'],
     },
 };
