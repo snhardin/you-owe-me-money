@@ -29,8 +29,8 @@ services:
       - mongo
 
     environment:
-      - INSECURE_COOKIES=true
       - MONGO_URL=mongodb://mongo/youOweMeMoney
+      - PRODUCTION=false
 
   mongo:
     image: mongo

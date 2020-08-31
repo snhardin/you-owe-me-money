@@ -1,127 +1,168 @@
-import Koa from 'koa';
-import { OAuth2Client, TokenPayload } from 'google-auth-library';
 import config from '../util/config';
-import jwt from 'jsonwebtoken';
 import { findUser } from '../util/database';
+import jwt from 'jsonwebtoken';
+import Koa from 'koa';
 import Router from '@koa/router';
 import { verify } from '../middleware/authMiddleware';
-import { JWT_COOKIE_NAME } from '../util/constants';
+import { JWT_COOKIE_NAME, JwtInfo } from '../util/authentication';
+import { OAuth2Client, TokenPayload } from 'google-auth-library';
 
+/**
+ * Google Oauth client
+ */
 const oauthClient = new OAuth2Client(config.ClientId);
-const tokenSearch = /^[Bb]earer +(\S+)$/;
 
+/**
+ * Expected token format regex parser
+ */
+const tokenSearch = /^[Bb]earer +(\S+)$/u;
+
+/**
+ * Response for the who handler.
+ */
 interface WhoAmIResponse {
-    email?: string;
-    loggedIn: boolean;
-    validUser?: boolean;
+
+	/**
+	 * Email of the user logged in.
+	 */
+	email?: string;
+
+	/**
+	 * Whether or not the user is logged in.
+	 */
+	loggedIn: boolean;
+
+	/**
+	 * Whether or not the user is a valid user.
+	 */
+	validUser?: boolean;
 }
 
-async function authenticate (ctx: Koa.ParameterizedContext) {
-    // Check if the header exists.
-    const authHeader: string = ctx.headers.authorization;
-    if (!authHeader) {
-        ctx.throw(400);
-    }
+/**
+ * Handler that authenticates a user, generating a session for them.
+ * @param ctx Koa context
+ */
+async function authenticate (ctx: Koa.ParameterizedContext): Promise<void> {
+	// Check if the header exists.
+	const authHeader: string = ctx.headers?.authorization;
+	if (!authHeader) {
+		ctx.throw(400);
+	}
 
-    // Check if token was passed in the expected format.
-    const tokenResult = tokenSearch.exec(authHeader);
-    if (!tokenResult || !tokenResult[1]) {
-        ctx.throw(400);
-    }
+	// Check if token was passed in the expected format.
+	const tokenResult = tokenSearch.exec(authHeader);
+	if (!tokenResult || !tokenResult[1]) {
+		ctx.throw(400);
+	}
 
-    // Get information from Google.
-    // If an exception is thrown, it's likely due to a bad request.
-    let payload: TokenPayload;
-    try {
-        const gResponse = await oauthClient.verifyIdToken({
-            idToken: tokenResult[1],
-            audience: config.ClientId,
-        });
+	// Get information from Google.
+	// If an exception is thrown, it's likely due to a bad request.
+	let payload: (TokenPayload | undefined);
+	try {
+		const gResponse = await oauthClient.verifyIdToken({
+			audience: config.ClientId,
+			idToken: tokenResult[1],
+		});
 
-        payload = gResponse.getPayload() as TokenPayload;
-        if (!payload || !payload.email) {
-            // No payload? Probably not authorized.
-            ctx.throw(401);
-        }
-    } catch (err) {
-        ctx.throw(400);
-    }
+		payload = gResponse.getPayload();
+		if (!payload?.email) {
+			// No payload? Probably not authorized.
+			ctx.throw(401);
+		}
+	} catch (err) {
+		ctx.throw(400);
+	}
 
-    // Create a JWT and return as a cookie.
-    const token = jwt.sign({ email: payload.email }, config.JWTKey, {
-        algorithm: 'HS256',
-        expiresIn: config.JWTExpiry,
-    });
+	// Create a JWT and return as a cookie.
+	const jwtInfo: JwtInfo = {
+		email: payload.email,
+	};
 
-    ctx.cookies.set(JWT_COOKIE_NAME, token, {
-        maxAge: config.JWTExpiry * 1000,
-        ...config.CookieOptions,
-    });
+	const token = jwt.sign(jwtInfo, config.JWTKey, {
+		algorithm: 'HS256',
+		expiresIn: config.JWTExpiry,
+	});
 
-    let validUser = false;
+	ctx.cookies.set(JWT_COOKIE_NAME, token, {
+		maxAge: config.JWTExpiry * 1000,
+		...config.CookieOptions,
+	});
 
-    // Look for the user in our database.
-    const userLookup = await findUser(payload.email);
-    if (userLookup) {
-        validUser = true;
-    }
+	let validUser = false;
 
-    ctx.body = {
-        email: payload.email,
-        loggedIn: true,
-        validUser,
-    } as WhoAmIResponse;
+	// Look for the user in our database.
+	const userLookup = await findUser(payload.email);
+	if (userLookup) {
+		validUser = true;
+	}
+
+	(ctx.body as WhoAmIResponse) = {
+		email: payload.email,
+		loggedIn: true,
+		validUser,
+	};
 }
 
-function logout (ctx: Koa.ParameterizedContext) {
-    // Tell our cookie to expire immediately.
-    ctx.cookies.set(JWT_COOKIE_NAME, '', {
-        expires: new Date(),
-        maxAge: 0,
-        ...config.CookieOptions,
-    });
+/**
+ * Handler that expires a user's session.
+ * @param ctx Koa context
+ */
+function logout (ctx: Koa.ParameterizedContext): void {
+	// Tell our cookie to expire immediately.
+	ctx.cookies.set(JWT_COOKIE_NAME, '', {
+		expires: new Date(),
+		maxAge: 0,
+		...config.CookieOptions,
+	});
 
-    ctx.status = 204;
+	ctx.status = 204;
 }
 
-async function who (ctx: Koa.ParameterizedContext) {
-    const token = ctx.cookies.get(JWT_COOKIE_NAME);
-    if (!token) {
-        ctx.body = {
-            loggedIn: false,
-        } as WhoAmIResponse;
-        return;
-    }
+/**
+ * Handler that identifies a user based on their session.
+ * @param ctx Koa context
+ */
+async function who (ctx: Koa.ParameterizedContext): Promise<void> {
+	const token = ctx.cookies.get(JWT_COOKIE_NAME);
+	if (!token) {
+		(ctx.body as WhoAmIResponse) = {
+			loggedIn: false,
+		};
 
-    let verifiedToken: any;
-    try {
-        verifiedToken = jwt.verify(token, config.JWTKey);
-    } catch (err) {
-        if (err instanceof jwt.JsonWebTokenError) {
-            ctx.body = {
-                loggedIn: false,
-            } as WhoAmIResponse;
-            return;
-        }
+		return;
+	}
 
-        ctx.throw(500);
-    }
+	let verifiedToken: JwtInfo;
+	try {
+		verifiedToken = jwt.verify(token, config.JWTKey) as JwtInfo;
+	} catch (err) {
+		if (err instanceof jwt.JsonWebTokenError) {
+			(ctx.body as WhoAmIResponse) = {
+				loggedIn: false,
+			};
 
-    const found = await findUser(verifiedToken.email);
-    if (!found) {
-        ctx.body = {
-            email: verifiedToken.email,
-            loggedIn: true,
-            validUser: false,
-        } as WhoAmIResponse;
-        return;
-    }
+			return;
+		}
 
-    ctx.body = {
-        email: verifiedToken.email,
-        loggedIn: true,
-        validUser: true,
-    } as WhoAmIResponse;
+		ctx.throw(500);
+	}
+
+	const found = await findUser(verifiedToken.email);
+	if (!found) {
+		(ctx.body as WhoAmIResponse) = {
+			email: verifiedToken.email,
+			loggedIn: true,
+			validUser: false,
+		};
+
+		return;
+	}
+
+	(ctx.body as WhoAmIResponse) = {
+		email: verifiedToken.email,
+		loggedIn: true,
+		validUser: true,
+	};
 }
 
 const router = new Router();
