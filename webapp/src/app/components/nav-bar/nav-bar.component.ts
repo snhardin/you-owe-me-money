@@ -1,42 +1,61 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { LoggerService } from 'src/app/services/logger.service';
 import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
+/**
+ * Component for navigation bar
+ */
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+	selector: 'app-nav-bar',
+	styleUrls: ['./nav-bar.component.scss'],
+	templateUrl: './nav-bar.component.html',
 })
 export class NavBarComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+	private _subscription: (Subscription | undefined);
 
-  public email: string;
-  public isAdmin: boolean;
-  public isLoggedIn: boolean;
+	public email: (string | undefined);
+	public isAdmin = false;
+	public isLoggedIn = false;
 
-  constructor (
-    public auth: AuthenticationService,
-  ) { }
+	/**
+	 * Constructor for component
+	 * @param auth Authentication service
+	 * @param logger Logger service
+	 */
+	constructor (
+		public auth: AuthenticationService,
+		public logger: LoggerService,
+	) { }
 
-  public ngOnInit () {
-    this.auth.login$.subscribe(value => {
-      this.isAdmin = true; // TODO
-      this.isLoggedIn = value.loggedIn;
-      this.email = value.email;
-    });
-  }
+	/**
+	 * Destroys the component
+	 */
+	public ngOnDestroy () {
+		this._subscription?.unsubscribe();
+	}
 
-  public ngOnDestroy () {
-    this._subscription.unsubscribe();
-  }
+	/**
+	 * Initializes the component
+	 */
+	public ngOnInit () {
+		this.auth.login$.subscribe(value => {
+			this.isAdmin = true; // TODO
+			this.isLoggedIn = value.loggedIn;
+			this.email = value.email;
+		});
+	}
 
-  public onLogoutClick () {
-    this.auth.logout()
-      .subscribe(
-        () => { },
-        err => {
-          console.error('Error while logging out:', err);
-        }
-      );
-  }
+	/**
+	 * Handles click of the logout button
+	 */
+	public onLogoutClick () {
+		this.auth.logout()
+			.subscribe(
+				() => { /* Do nothing if successful. */ },
+				err => {
+					this.logger.error('Error while logging out:', err);
+				}
+			);
+	}
 }

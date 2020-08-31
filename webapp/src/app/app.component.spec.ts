@@ -1,27 +1,39 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { Component } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('AppComponent', () => {
-  let fixture: ComponentFixture<AppComponent>;
-  let component: AppComponent;
+/**
+ * Mock component for the navigation bar
+ */
+@Component({
+	selector: 'app-nav-bar',
+	template: '<div>This is a mock component.</div>',
+})
+class MockNavBarComponent { }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
+describe('appComponent', () => {
+	let fixture: ComponentFixture<AppComponent>;
+	let component: AppComponent;
 
-    fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    component = fixture.componentInstance;
-  }));
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			declarations: [
+				AppComponent,
+				MockNavBarComponent,
+			],
+			imports: [
+				RouterTestingModule,
+			],
+		}).compileComponents();
 
-  it('should create the app', () => {
-    expect(component).toBeTruthy();
-  });
+		fixture = TestBed.createComponent(AppComponent);
+		fixture.detectChanges();
+		component = fixture.componentInstance;
+	});
+
+	test('should create the app', () => {
+		expect.assertions(1);
+		expect(component).toBeTruthy();
+	});
 });

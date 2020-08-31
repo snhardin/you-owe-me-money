@@ -1,3 +1,10 @@
+/**
+ *
+ */
 export interface BalanceServiceResponse {
-    balance: number;
+
+	/**
+	 *
+	 */
+	balance: number;
 }

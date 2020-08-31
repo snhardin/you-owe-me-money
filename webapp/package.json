@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "jest --config ./jest.config.js",
-    "lint": "eslint --ext .ts,tsx ./src"
+    "lint": "npm run lint:eslint && npm run lint:htmlhint",
+    "lint:eslint": "eslint --ext .ts,tsx ./src",
+    "lint:htmlhint": "htmlhint ./src"
   },
   "private": true,
   "dependencies": {
@@ -18,8 +20,10 @@
     "@angular/platform-browser": "^9.1.12",
     "@angular/platform-browser-dynamic": "^9.1.12",
     "@angular/router": "^9.1.12",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.5.2",
+    "bunyan": "^1.8.14",
     "jquery": "^3.5.1",
+    "loglevel": "^1.7.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.13.0",
     "zone.js": "~0.10.2"
@@ -32,19 +36,21 @@
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "@types/jest": "^25.2.3",
-    "@types/node": "^12.12.53",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
+    "@types/node": "^12.12.54",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
     "codelyzer": "^5.1.2",
-    "eslint": "^7.5.0",
-    "eslint-config-airbnb-typescript": "^7.2.1",
+    "dgigs-lint": "^0.0.2",
+    "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-jsdoc": "^30.2.1",
-    "jest": "^26.2.1",
+    "eslint-plugin-jsdoc": "^30.2.3",
+    "htmlhint": "^0.14.1",
+    "jest": "^26.4.0",
     "jest-preset-angular": "^8.2.1",
     "ts-deepmerge": "^1.0.5",
     "ts-node": "~8.3.0",
+    "tsconfig-dgigs": "^0.0.3",
     "typescript": "~3.8.3"
   }
 }

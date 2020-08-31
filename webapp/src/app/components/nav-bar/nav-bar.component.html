@@ -1,26 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">You Owe Me Money >:(</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/">Home</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/login" *ngIf="!isLoggedIn">Log In</a>
-                <a class="nav-link disabled" [innerText]="email" *ngIf="isLoggedIn"></a>
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn">
-                <a class="nav-link" [routerLink]="" (click)="onLogoutClick()">Log Out</a>
-            </li>
-            <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
-                <a class="nav-link" routerLink="/admin">Admin</a>
-            </li>
-        </ul>
-    </div>
+	<a class="navbar-brand" href="#">You Owe Me Money &gt;:(</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-navigation"
+		aria-controls="navbar-navigation" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbar-navigation">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/">Home</a>
+			</li>
+		</ul>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/login" *ngIf="!isLoggedIn">Log In</a>
+				<a class="nav-link disabled" [innerText]="email" *ngIf="isLoggedIn"></a>
+			</li>
+			<li class="nav-item" *ngIf="isLoggedIn">
+				<a class="nav-link" [routerLink]="" (click)="onLogoutClick()">Log Out</a>
+			</li>
+			<li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+				<a class="nav-link" routerLink="/admin">Admin</a>
+			</li>
+		</ul>
+	</div>
 </nav>

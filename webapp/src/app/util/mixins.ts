@@ -1,7 +1,7 @@
-import { environment } from "src/environments/environment";
+import { environment } from 'src/environments/environment';
 
 /**
- * Mixin Constructor type.
+ * Mixin Constructor type
  */
 type Constructor<T> = new(...args: any[]) => T;
 
@@ -10,14 +10,18 @@ type Constructor<T> = new(...args: any[]) => T;
  * @param Base The class to transform.
  * @returns New class with environment transformation.
  */
-export function WithEnvironment<T extends Constructor<{ }>>(Base: T = (class { } as any)) {
-    return class extends Base {
-        public env: typeof environment;
+export function WithEnvironment<T extends Constructor<{ }>> (Base: T = (class { } as any)) {
+	return class extends Base {
+		public env: typeof environment;
 
-        constructor (...args: any[]) {
-            super(...args);
+		/**
+		 * Constructor for environment mixin
+		 * @param args Any arguments to the constructor
+		 */
+		constructor (...args: any[]) {
+			super(...args);
 
-            this.env = environment;
-        }
-    }
+			this.env = environment;
+		}
+	};
 }

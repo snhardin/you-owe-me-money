@@ -1,54 +1,75 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { BalanceService } from 'src/app/services/balance.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { switchMap } from 'rxjs/operators';
-import { Subscription, of } from 'rxjs';
+import { BalanceService } from 'src/app/services/balance.service';
 import { BalanceServiceResponse } from 'src/app/services/balance.service.interface';
+import { HttpErrorResponse } from '@angular/common/http';
+import { LoggerService } from 'src/app/services/logger.service';
+import { switchMap } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { of, Subscription } from 'rxjs';
 
+/**
+ * Component representing the home page
+ */
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+	selector: 'app-home-page',
+	styleUrls: ['./home-page.component.scss'],
+	templateUrl: './home-page.component.html',
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+	private _subscription: (Subscription | undefined);
 
-  public balance: number;
-  public loggedIn: boolean;
+	public balance: (number | null);
+	public loggedIn = false;
 
-  constructor (
-    public auth: AuthenticationService,
-    private balanceService: BalanceService,
-  ) { }
+	/**
+	 * Constructor for component
+	 * @param auth Authentication service
+	 * @param balanceService Balance service
+	 * @param logger Logger service
+	 */
+	constructor (
+		public auth: AuthenticationService,
+		private balanceService: BalanceService,
+		private logger: LoggerService,
+	) {
+		this.balance = null;
+	}
 
-  public ngOnInit (): void {
-    this._subscription = this.auth.login$
-      .pipe(
-        switchMap(loginState => {
-          this.loggedIn = loginState.loggedIn;
-          if (this.loggedIn) {
-            return this.balanceService.getBalance();
-          } else {
-            return of(<BalanceServiceResponse>{ balance: 0 });
-          }
-        }),
-      )
-      .subscribe(response => {
-        this.balance = response.balance;
-      },
-      (err: HttpErrorResponse) => {
-        this.balance = undefined;
-        if (err.status === 404) {
-          console.error('HomePageComponent :: ngOnInit :: No balance found for user!');
-        } else {
-          console.error('HomePageComponent :: ngOnInit :: Error retrieving balance '
-            + 'from API:', err);
-        }
-      });
-  }
+	/**
+	 * Destroys the component
+	 */
+	public ngOnDestroy (): void {
+		this._subscription?.unsubscribe();
+	}
 
-  public ngOnDestroy (): void {
-    this._subscription.unsubscribe();
-  }
+	/**
+	 * Initializes the component
+	 */
+	public ngOnInit () {
+		this.balance = null;
+
+		this._subscription = this.auth.login$
+			.pipe(
+				switchMap(loginState => {
+					this.loggedIn = loginState.loggedIn;
+					if (this.loggedIn) {
+						return this.balanceService.getBalance();
+					}
+
+					return of<BalanceServiceResponse>({ balance: 0 });
+
+				}),
+			)
+			.subscribe(response => {
+				this.balance = response.balance;
+			},
+			(err: HttpErrorResponse) => {
+				this.balance = null;
+				if (err.status === 404) {
+					this.logger.error('No balance found for user!');
+				} else {
+					this.logger.error('Error retrieving balance from API:', err);
+				}
+			});
+	}
 }
