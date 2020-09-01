@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { GoogleSignInButtonModule } from 'src/app/components/google-sign-in-button/google-sign-in-button.module';
 import { LoginPageComponent } from './login-page.component';
-import { LoginPageModule } from './login-page.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 /**
@@ -19,22 +17,11 @@ describe('loginPageComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [
-				LoginPageModule,
-			],
-		}).overrideModule(LoginPageModule, {
-			remove: {
-				imports: [
-					GoogleSignInButtonModule,
-				],
-			},
-			add: {
-				declarations: [
-					MockGoogleSignInButtonComponent,
-				],
-			},
-		})
-			.compileComponents();
+			declarations: [
+				LoginPageComponent,
+				MockGoogleSignInButtonComponent,
+			]
+		}).compileComponents();
 
 		fixture = TestBed.createComponent(LoginPageComponent);
 		component = fixture.componentInstance;

@@ -1,5 +1,4 @@
 import { AdminPageComponent } from './admin-page.component';
-import { AdminPageModule } from './admin-page.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('adminPageComponent', () => {
@@ -8,8 +7,8 @@ describe('adminPageComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [
-				AdminPageModule,
+			declarations: [
+				AdminPageComponent,
 			],
 		}).compileComponents();
 

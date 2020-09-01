@@ -1,21 +1,24 @@
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { NgModule } from '@angular/core';
 import { NotLoggedInGuard } from './guards/not-logged-in.guard';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 	{
-		loadChildren: () => import('./pages/home-page/home-page.module').then(m => m.HomePageModule),
+		component: HomePageComponent,
 		path: '',
 	},
 	{
 		canActivate: [LoggedInGuard],
-		loadChildren: () => import('./pages/admin-page/admin-page.module').then(m => m.AdminPageModule),
+		component: AdminPageComponent,
 		path: 'admin',
 	},
 	{
 		canActivate: [NotLoggedInGuard],
-		loadChildren: () => import('./pages/login-page/login-page.module').then(m => m.LoginPageModule),
+		component: LoginPageComponent,
 		path: 'login',
 	},
 ];

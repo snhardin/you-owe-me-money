@@ -1,7 +1,6 @@
 import { BalanceService } from 'src/app/services/balance.service';
 import { BehaviorSubject } from 'rxjs';
 import { HomePageComponent } from './home-page.component';
-import { HomePageModule } from './home-page.module';
 import { LoggerService } from 'src/app/services/logger.service';
 import { AuthenticationService, LoginState } from 'src/app/services/authentication.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -38,8 +37,8 @@ describe('homePageComponent', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [
-				HomePageModule,
+			declarations: [
+				HomePageComponent,
 			],
 			providers: [
 				{
