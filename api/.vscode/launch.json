@@ -15,7 +15,8 @@
             "preLaunchTask": "npm: build",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
-            ]
+            ],
+            "outputCapture": "std"
         }
     ]
 }

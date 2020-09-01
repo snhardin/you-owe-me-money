@@ -1,5 +1,4 @@
 import { AdminPageComponent } from './admin-page.component';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 /**
@@ -11,9 +10,6 @@ import { NgModule } from '@angular/core';
 	],
 	exports: [
 		AdminPageComponent,
-	],
-	imports: [
-		BrowserModule,
 	],
 })
 export class AdminPageModule { }

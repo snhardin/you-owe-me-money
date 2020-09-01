@@ -38,7 +38,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 	/**
 	 * Destroys the component
 	 */
-	public ngOnDestroy (): void {
+	public ngOnDestroy () {
 		this._subscription?.unsubscribe();
 	}
 

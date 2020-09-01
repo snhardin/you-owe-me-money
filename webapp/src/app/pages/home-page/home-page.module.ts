@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { HomePageComponent } from './home-page.component';
 import { NgModule } from '@angular/core';
 
@@ -11,9 +10,6 @@ import { NgModule } from '@angular/core';
 	],
 	exports: [
 		HomePageComponent,
-	],
-	imports: [
-		BrowserModule,
 	],
 })
 export class HomePageModule { }

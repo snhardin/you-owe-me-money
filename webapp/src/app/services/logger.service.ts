@@ -28,7 +28,7 @@ export class LoggerService extends WithEnvironment() {
 	 * @param msg The message to log
 	 */
 	public debug (...msg: unknown[]) {
-		log.debug(msg);
+		log.debug(...msg);
 	}
 
 	/**
@@ -36,7 +36,7 @@ export class LoggerService extends WithEnvironment() {
 	 * @param msg The message to log
 	 */
 	public error (...msg: unknown[]) {
-		log.error(msg);
+		log.error(...msg);
 	}
 
 	/**
@@ -44,7 +44,7 @@ export class LoggerService extends WithEnvironment() {
 	 * @param msg The message to log
 	 */
 	public info (...msg: unknown[]) {
-		log.info(msg);
+		log.info(...msg);
 	}
 
 	/**
@@ -52,7 +52,7 @@ export class LoggerService extends WithEnvironment() {
 	 * @param msg The message to log
 	 */
 	public trace (...msg: unknown[]) {
-		log.trace(msg);
+		log.trace(...msg);
 	}
 
 	/**
@@ -60,6 +60,6 @@ export class LoggerService extends WithEnvironment() {
 	 * @param msg The message to log
 	 */
 	public warn (...msg: unknown[]) {
-		log.warn(msg);
+		log.warn(...msg);
 	}
 }

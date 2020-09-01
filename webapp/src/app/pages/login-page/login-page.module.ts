@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { GoogleSignInButtonModule } from 'src/app/components/google-sign-in-button/google-sign-in-button.module';
 import { LoginPageComponent } from './login-page.component';
 import { NgModule } from '@angular/core';
@@ -14,7 +13,6 @@ import { NgModule } from '@angular/core';
 		LoginPageComponent,
 	],
 	imports: [
-		BrowserModule,
 		GoogleSignInButtonModule,
 	],
 })
