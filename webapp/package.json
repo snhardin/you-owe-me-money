@@ -2,13 +2,13 @@
   "name": "you-owe-me-money",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "jest --config ./jest.config.js",
+    "start": "npx ng serve",
+    "build": "npx ng build",
+    "build:prod": "npm run build -- --prod=true",
+    "test": "npx jest --config ./jest.config.js",
     "lint": "npm run lint:eslint && npm run lint:htmlhint",
-    "lint:eslint": "eslint --ext .ts,tsx ./src",
-    "lint:htmlhint": "htmlhint ./src"
+    "lint:eslint": "npx eslint --ext .ts,tsx ./src",
+    "lint:htmlhint": "dgigs-lint html && htmlhint ./src"
   },
   "private": true,
   "dependencies": {
