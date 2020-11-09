@@ -5,7 +5,7 @@
 import { LoggerService } from './logger.service';
 import { Router } from '@angular/router';
 import { WithEnvironment } from '../util/mixins';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
@@ -175,7 +175,7 @@ export class AuthenticationService extends WithEnvironment() {
 	public logout () {
 		this.handleNewLoginState({ loggedIn: false });
 
-		return this.http.get<void>(`${this.env.api.base}${this.env.api.logoutAuth}`)
+		const apiLogout = this.http.get<void>(`${this.env.api.base}${this.env.api.logoutAuth}`)
 			.pipe(
 				catchError(err => {
 					this.logger.error('Error while logging out:', err);
@@ -183,5 +183,9 @@ export class AuthenticationService extends WithEnvironment() {
 					return of();
 				}),
 			);
+		const googleLogout = from(gapi.auth2.getAuthInstance()
+			.signOut());
+
+		return forkJoin([apiLogout, googleLogout]);
 	}
 }
