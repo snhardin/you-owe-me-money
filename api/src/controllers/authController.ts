@@ -2,6 +2,7 @@ import config from '../util/config';
 import { findUser } from '../util/database';
 import jwt from 'jsonwebtoken';
 import Koa from 'koa';
+import logger from '../util/logger';
 import Router from '@koa/router';
 import { verify } from '../middleware/authMiddleware';
 import { JWT_COOKIE_NAME, JwtInfo } from '../util/authentication';
@@ -46,12 +47,14 @@ async function authenticate (ctx: Koa.ParameterizedContext): Promise<void> {
 	// Check if the header exists.
 	const authHeader: string = ctx.headers?.authorization;
 	if (!authHeader) {
+		logger.debug('Request is missing authorization header');
 		ctx.throw(400);
 	}
 
 	// Check if token was passed in the expected format.
 	const tokenResult = tokenSearch.exec(authHeader);
 	if (!tokenResult || !tokenResult[1]) {
+		logger.debug('Request failed to match regex');
 		ctx.throw(400);
 	}
 
@@ -70,6 +73,7 @@ async function authenticate (ctx: Koa.ParameterizedContext): Promise<void> {
 			ctx.throw(401);
 		}
 	} catch (err) {
+		logger.error('GResponse threw an error!', err);
 		ctx.throw(400);
 	}
 
