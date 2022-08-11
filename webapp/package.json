@@ -48,7 +48,7 @@
     "htmlhint": "^0.14.1",
     "jest": "^26.4.0",
     "jest-preset-angular": "^8.2.1",
-    "ts-deepmerge": "^1.0.5",
+    "ts-deepmerge": "^2.0.2",
     "ts-node": "~8.3.0",
     "tsconfig-dgigs": "^0.0.3",
     "typescript": "~3.8.3"
